@@ -13,6 +13,8 @@ class HomePageLoading extends HomePageState {
   const HomePageLoading();
 }
 
+
+
 class HomePageLoaded extends HomePageState {
   final List<ImageModel>? listOfImages;
   const HomePageLoaded(this.listOfImages);

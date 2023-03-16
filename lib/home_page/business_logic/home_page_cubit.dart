@@ -6,20 +6,19 @@ import 'package:otto_international_assign/home_page/data/models/Image_model.dart
 part 'home_page_state.dart';
 
 class HomePageCubit extends Cubit<HomePageState> {
-  HomePageCubit() : super(const HomePageLoading());
+  HomePageCubit() : super(const HomePageInitial());
 
-  List<ImageModel>? _listOfImages;
+  int currentPage = 1;
+  bool isFetching = false;
 
-  Future<void> getListOfInitialImages({int pageNumber = 1, isPaginating = false}) async{
+
+  Future<void> getListOfImages({isPaginating = false}) async{
+
     try {
       emit(const HomePageLoading());
-      if(isPaginating){
-        List<ImageModel> listOfImagesFromAPI = await ImageApiHandler.getListOfImages(pageNumber);
-        _listOfImages ??= [];
-        _listOfImages!.addAll(listOfImagesFromAPI);
-      }
-      _listOfImages = await ImageApiHandler.getListOfImages(pageNumber);
-      emit(HomePageLoaded(_listOfImages));
+      List<ImageModel> listOfImagesFromAPI = await ImageApiHandler.getListOfImages(currentPage);
+      emit(HomePageLoaded(listOfImagesFromAPI));
+      currentPage++;
     }
     catch(e){
       emit(HomePageError("$e"));
