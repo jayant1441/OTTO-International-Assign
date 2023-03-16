@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:otto_international_assign/home_page/business_logic/home_page_cubit.dart';
 import 'package:otto_international_assign/home_page/data/models/Image_model.dart';
+import 'package:otto_international_assign/photo_view_page/presentation/photo_gallery_index.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -23,7 +24,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
+          _scrollController.position.maxScrollExtent ) {
         BlocProvider.of<HomePageCubit>(context)
             .getListOfImages(isPaginating: true);
       }
@@ -43,7 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text(""), backgroundColor: Colors.black),
+        appBar: AppBar(title: Text("OTTO International"), backgroundColor: Colors.black),
         body: BlocConsumer<HomePageCubit, HomePageState>(
           listener: (context, state) {
             if (state is HomePageLoading) {
@@ -75,6 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: GridView.builder(
                   controller: _scrollController,
                   itemCount: _listOfImages.length,
+                  physics: BouncingScrollPhysics(),
                   gridDelegate:
                   const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
@@ -83,7 +85,21 @@ class _MyHomePageState extends State<MyHomePage> {
                   itemBuilder: (BuildContext context, int index) {
                     final ImageModel image = _listOfImages[index];
                     return GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => GalleryPhotoViewWrapper(
+                              galleryItems: _listOfImages,
+                              backgroundDecoration: const BoxDecoration(
+                                color: Colors.black,
+                              ),
+                              initialIndex: index,
+                              scrollDirection: Axis.horizontal,
+                            ),
+                          ),
+                        );
+                      },
                       child: PhysicalModel(
                         color: Colors.black,
                         elevation: 10,
