@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -17,6 +19,7 @@ class MyBookmarkPage extends StatefulWidget {
 class _MyBookmarkPageState extends State<MyBookmarkPage> {
   final ScrollController _scrollController = ScrollController();
   final List<BookmarkModel> _listOfBookmarks = [];
+  final List<ImageModel> _listOfImages = [];
 
   @override
   void initState() {
@@ -45,6 +48,13 @@ class _MyBookmarkPageState extends State<MyBookmarkPage> {
           ScaffoldMessenger.of(context).hideCurrentSnackBar();
           _listOfBookmarks.addAll(state.listOfBookMarks ?? []);
           BlocProvider.of<BookmarkPageCubit>(context).isFetching = false;
+
+          _listOfImages.addAll(_listOfBookmarks.map((e) => ImageModel(
+              urlOfImages: Urls(
+                  small: e.imageUrl
+              )
+          )).toList());
+
         } else if (state is BookmarkPageError) {
           ScaffoldMessenger.of(context)
               .showSnackBar(SnackBar(content: Text(state.errorMessage)));
@@ -83,18 +93,14 @@ class _MyBookmarkPageState extends State<MyBookmarkPage> {
                   mainAxisSpacing: 12.0),
               itemBuilder: (BuildContext context, int index) {
                 final BookmarkModel bookmark = _listOfBookmarks[index];
-                List<ImageModel> listOfImages = _listOfBookmarks.map((e) => ImageModel(
-                    urlOfImages: Urls(
-                        small: bookmark.imageUrl
-                    )
-                )).toList();
+
                 return GestureDetector(
                   onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => GalleryPhotoViewWrapper(
-                          galleryItems: listOfImages,
+                          galleryItems: _listOfImages,
                           backgroundDecoration: const BoxDecoration(
                             color: Colors.black,
                           ),

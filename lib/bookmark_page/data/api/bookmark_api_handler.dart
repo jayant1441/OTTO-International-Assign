@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -36,7 +38,7 @@ class BookmarkApiHandler{
   /// Function to get all bookmarks by email id, we can also use uid instead of email
   static Future<List<BookmarkModel>> getAllBookMarkedImages(String email) async{
     try{
-      CollectionReference collectionRef = FirebaseFirestore.instance.collection('bookmarked');
+      CollectionReference collectionRef = FirebaseFirestore.instance.collection('bookmarks');
 
       // Get docs from collection reference
       QuerySnapshot querySnapshot = await collectionRef.where("email", isEqualTo: email).get();
@@ -46,6 +48,7 @@ class BookmarkApiHandler{
         return BookmarkModel.fromJson(doc.data() as Map<String , dynamic>);
       }).toList();
 
+      log("${allBookmarks.toList()}");
       return allBookmarks;
     }
     catch(E){

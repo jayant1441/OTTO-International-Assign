@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:otto_international_assign/bookmark_page/business_logic/bookmark_page_cubit.dart';
 import 'package:otto_international_assign/home_page/business_logic/home_page_cubit.dart';
 import 'package:otto_international_assign/home_page/data/models/Image_model.dart';
 import 'package:otto_international_assign/photo_view_page/presentation/photo_gallery_index.dart';
@@ -25,7 +26,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent ) {
+          _scrollController.position.maxScrollExtent) {
         BlocProvider.of<HomePageCubit>(context)
             .getListOfImages(isPaginating: true);
       }
@@ -78,8 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
               controller: _scrollController,
               itemCount: _listOfImages.length,
               physics: BouncingScrollPhysics(),
-              gridDelegate:
-              const SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 12.0,
                   mainAxisSpacing: 12.0),
@@ -107,15 +107,55 @@ class _MyHomePageState extends State<MyHomePage> {
                     borderRadius: BorderRadius.circular(16),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(16),
-                      child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.grey,
-                              borderRadius: BorderRadius.circular(16),
-                              image: DecorationImage(
-                                image: CachedNetworkImageProvider(
-                                    "${image.urlOfImages!.small}"),
-                                fit: BoxFit.fill,
-                              ))),
+                      child: Stack(
+                        children: [
+                          Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.grey,
+                                  borderRadius: BorderRadius.circular(16),
+                                  image: DecorationImage(
+                                    image: CachedNetworkImageProvider(
+                                        "${image.urlOfImages!.small}"),
+                                    fit: BoxFit.fill,
+                                  ))),
+                          Positioned(
+                            right: 0,
+                            child: GestureDetector(
+                              onTap: () {
+                                BlocProvider.of<BookmarkPageCubit>(context)
+                                    .addBookmark("${image.urlOfImages?.small}");
+                              },
+                              child: Container(
+                                  padding: EdgeInsets.all(4),
+                                  margin: EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      shape: BoxShape.circle),
+                                  child:
+                                      BlocConsumer<BookmarkPageCubit, BookmarkPageState>(
+                                    listener: (context, state) {
+                                      // TODO: implement listener
+                                      // todo make changes in the list of images
+                                      if(state is BookmarkPageError){
+                                        print("${state.errorMessage}");
+                                      }
+                                    },
+                                    builder: (context, state) {
+                                      if(state is BookmarkPageUploading){
+                                        return CircularProgressIndicator(color: AppColors.goldColor,);
+                                      }
+                                      if(state is BookmarkPageLoaded){
+                                        return Icon(Icons.bookmark);
+                                      }
+
+
+                                      return Icon(Icons.bookmark_add_outlined);
+                                    },
+                                  )),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 );
