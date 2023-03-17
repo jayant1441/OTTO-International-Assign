@@ -4,7 +4,14 @@
 [![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
 
 Assignment is about a application where the the user can view a photo gallery
-## Working Video
+
+## LINKS
+
+Video Url - https://youtu.be/zJpDgel95Qg
+
+Android App - https://drive.google.com/file/d/1iDE34G_crmJK3k0wJy9-Yrm4PYNG7pU1/view?usp=sharing
+
+
 
 ## Features
 
