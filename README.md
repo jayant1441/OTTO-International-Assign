@@ -1,16 +1,34 @@
-# otto_international_assign
+# OTTO International Assignment
+## Flutter app
 
-A new Flutter project.
+[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
 
-## Getting Started
+Assignment is about a application where the the user can view a photo gallery
+## Working Video
 
-This project is a starting point for a Flutter application.
+## Features
 
-A few resources to get you started if this is your first Flutter project:
+- Auth Functionality (Login with Google)
+- Use of any public Photo API to get a list of photos and build a gallery of photos
+- The user can tap the photo and can see a full-screen view of the photo
+- The user has an infinite scroll on the gallery screen
+- Local Cache mechanism in the backend
+- User can bookmark their favourite photos
+- User can view all bookmark photos in a viewer
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## UI
+
+
+
+## Installation
+
+Otto assignment requires Flutter version 3.0+ (ideally)
+
+Install the dependencies and devDependencies and start the app.
+
+```sh
+flutter pub get
+```
+
+

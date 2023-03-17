@@ -46,10 +46,8 @@ class _MyHomePageState extends State<MyHomePage> {
     return BlocConsumer<HomePageCubit, HomePageState>(
       listener: (context, state) {
         if (state is HomePageLoading) {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(const SnackBar(
-            backgroundColor: AppColors.goldColor,
-              content: Text("Loading")));
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              backgroundColor: AppColors.goldColor, content: Text("Loading")));
         } else if (state is HomePageLoaded) {
           ScaffoldMessenger.of(context).hideCurrentSnackBar();
           _listOfImages.addAll(state.listOfImages ?? []);
@@ -131,27 +129,35 @@ class _MyHomePageState extends State<MyHomePage> {
                                   decoration: const BoxDecoration(
                                       color: Colors.white,
                                       shape: BoxShape.circle),
-                                  child:
-                                      BlocConsumer<BookmarkPageCubit, BookmarkPageState>(
+                                  child: BlocConsumer<BookmarkPageCubit,
+                                      BookmarkPageState>(
                                     listener: (context, state) {
-
-                                      if(state is BookmarkPageError){
-                                      }
-                                      if(state is BookmarkPageUploaded){
-                                        final image = _listOfImages.firstWhere((element) => element.urlOfImages?.small == state.imageUrl);
+                                      if (state is BookmarkPageError) {}
+                                      if (state is BookmarkPageUploaded) {
+                                        final image = _listOfImages.firstWhere(
+                                            (element) =>
+                                                element.urlOfImages?.small ==
+                                                state.imageUrl);
                                         image.setIsBookmarked = true;
                                       }
                                     },
                                     builder: (context, state) {
-                                      if(state is BookmarkPageUploading && state.imageUrl == image.urlOfImages?.small){
-                                        return const CircularProgressIndicator(color: AppColors.goldColor,);
+                                      if (state is BookmarkPageUploading &&
+                                          state.imageUrl ==
+                                              image.urlOfImages?.small) {
+                                        return const CircularProgressIndicator(
+                                          color: AppColors.goldColor,
+                                        );
                                       }
-                                      if((state is BookmarkPageUploaded && state.imageUrl == image.urlOfImages?.small) || image.isBookmarked == true) {
+                                      if ((state is BookmarkPageUploaded &&
+                                              state.imageUrl ==
+                                                  image.urlOfImages?.small) ||
+                                          image.isBookmarked == true) {
                                         return const Icon(Icons.bookmark);
                                       }
 
-
-                                      return const Icon(Icons.bookmark_add_outlined);
+                                      return const Icon(
+                                          Icons.bookmark_add_outlined);
                                     },
                                   )),
                             ),

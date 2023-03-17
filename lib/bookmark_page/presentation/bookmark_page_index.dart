@@ -23,7 +23,6 @@ class _MyBookmarkPageState extends State<MyBookmarkPage> {
   void initState() {
     super.initState();
 
-
     WidgetsBinding.instance.addPostFrameCallback((_) {
       BlocProvider.of<BookmarkPageCubit>(context).getAllBookmarks();
     });
@@ -40,19 +39,16 @@ class _MyBookmarkPageState extends State<MyBookmarkPage> {
     return BlocConsumer<BookmarkPageCubit, BookmarkPageState>(
       listener: (context, state) {
         if (state is BookmarkPageLoading) {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(const SnackBar(backgroundColor: AppColors.goldColor,content: Text("Loading")));
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              backgroundColor: AppColors.goldColor, content: Text("Loading")));
         } else if (state is BookmarkPageLoaded) {
           ScaffoldMessenger.of(context).hideCurrentSnackBar();
           _listOfBookmarks.addAll(state.listOfBookMarks ?? []);
           BlocProvider.of<BookmarkPageCubit>(context).isFetching = false;
 
-          _listOfImages.addAll(_listOfBookmarks.map((e) => ImageModel(
-              urlOfImages: Urls(
-                  small: e.imageUrl
-              )
-          )).toList());
-
+          _listOfImages.addAll(_listOfBookmarks
+              .map((e) => ImageModel(urlOfImages: Urls(small: e.imageUrl)))
+              .toList());
         } else if (state is BookmarkPageError) {
           ScaffoldMessenger.of(context)
               .showSnackBar(SnackBar(content: Text(state.errorMessage)));
@@ -72,7 +68,7 @@ class _MyBookmarkPageState extends State<MyBookmarkPage> {
           );
         }
 
-        if(state is BookmarkPageLoaded &&  _listOfBookmarks.isEmpty ){
+        if (state is BookmarkPageLoaded && _listOfBookmarks.isEmpty) {
           return const Center(
             child: Text("There are no bookmarks available."),
           );
@@ -84,8 +80,7 @@ class _MyBookmarkPageState extends State<MyBookmarkPage> {
               controller: _scrollController,
               itemCount: _listOfBookmarks.length,
               physics: const BouncingScrollPhysics(),
-              gridDelegate:
-              const SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 12.0,
                   mainAxisSpacing: 12.0),
