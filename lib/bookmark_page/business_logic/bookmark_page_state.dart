@@ -14,12 +14,14 @@ class BookmarkPageLoading extends BookmarkPageState {
 }
 
 class BookmarkPageUploading extends BookmarkPageState {
-  const BookmarkPageUploading();
+  final String? imageUrl;
+  const BookmarkPageUploading(this.imageUrl);
 }
 
 class BookmarkPageUploaded extends BookmarkPageState {
   final bool? isBookmarkAdded;
-  const BookmarkPageUploaded(this.isBookmarkAdded);
+  final String? imageUrl;
+  const BookmarkPageUploaded(this.isBookmarkAdded, this.imageUrl);
 }
 
 class BookmarkPageUploadingError extends BookmarkPageState {

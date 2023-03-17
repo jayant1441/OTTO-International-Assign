@@ -1,5 +1,3 @@
-import 'dart:ui';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -49,7 +47,9 @@ class _MyHomePageState extends State<MyHomePage> {
       listener: (context, state) {
         if (state is HomePageLoading) {
           ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text("Loading")));
+              .showSnackBar(const SnackBar(
+            backgroundColor: AppColors.goldColor,
+              content: Text("Loading")));
         } else if (state is HomePageLoaded) {
           ScaffoldMessenger.of(context).hideCurrentSnackBar();
           _listOfImages.addAll(state.listOfImages ?? []);
@@ -78,7 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
             child: GridView.builder(
               controller: _scrollController,
               itemCount: _listOfImages.length,
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 12.0,
@@ -126,30 +126,32 @@ class _MyHomePageState extends State<MyHomePage> {
                                     .addBookmark("${image.urlOfImages?.small}");
                               },
                               child: Container(
-                                  padding: EdgeInsets.all(4),
-                                  margin: EdgeInsets.all(8),
-                                  decoration: BoxDecoration(
+                                  padding: const EdgeInsets.all(4),
+                                  margin: const EdgeInsets.all(8),
+                                  decoration: const BoxDecoration(
                                       color: Colors.white,
                                       shape: BoxShape.circle),
                                   child:
                                       BlocConsumer<BookmarkPageCubit, BookmarkPageState>(
                                     listener: (context, state) {
-                                      // TODO: implement listener
-                                      // todo make changes in the list of images
+
                                       if(state is BookmarkPageError){
-                                        print("${state.errorMessage}");
+                                      }
+                                      if(state is BookmarkPageUploaded){
+                                        final image = _listOfImages.firstWhere((element) => element.urlOfImages?.small == state.imageUrl);
+                                        image.setIsBookmarked = true;
                                       }
                                     },
                                     builder: (context, state) {
-                                      if(state is BookmarkPageUploading){
-                                        return CircularProgressIndicator(color: AppColors.goldColor,);
+                                      if(state is BookmarkPageUploading && state.imageUrl == image.urlOfImages?.small){
+                                        return const CircularProgressIndicator(color: AppColors.goldColor,);
                                       }
-                                      if(state is BookmarkPageLoaded){
-                                        return Icon(Icons.bookmark);
+                                      if((state is BookmarkPageUploaded && state.imageUrl == image.urlOfImages?.small) || image.isBookmarked == true) {
+                                        return const Icon(Icons.bookmark);
                                       }
 
 
-                                      return Icon(Icons.bookmark_add_outlined);
+                                      return const Icon(Icons.bookmark_add_outlined);
                                     },
                                   )),
                             ),

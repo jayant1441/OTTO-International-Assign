@@ -41,7 +41,7 @@ class _MyBookmarkPageState extends State<MyBookmarkPage> {
       listener: (context, state) {
         if (state is BookmarkPageLoading) {
           ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text("Loading")));
+              .showSnackBar(const SnackBar(backgroundColor: AppColors.goldColor,content: Text("Loading")));
         } else if (state is BookmarkPageLoaded) {
           ScaffoldMessenger.of(context).hideCurrentSnackBar();
           _listOfBookmarks.addAll(state.listOfBookMarks ?? []);
@@ -73,7 +73,7 @@ class _MyBookmarkPageState extends State<MyBookmarkPage> {
         }
 
         if(state is BookmarkPageLoaded &&  _listOfBookmarks.isEmpty ){
-          return Center(
+          return const Center(
             child: Text("There are no bookmarks available."),
           );
         }
@@ -83,7 +83,7 @@ class _MyBookmarkPageState extends State<MyBookmarkPage> {
             child: GridView.builder(
               controller: _scrollController,
               itemCount: _listOfBookmarks.length,
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               gridDelegate:
               const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,

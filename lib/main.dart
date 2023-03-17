@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: FirebaseAuth.instance.currentUser != null ? const LoginScreen() : const BottomNavigationMain(),
+      home: FirebaseAuth.instance.currentUser == null ? const LoginScreen() : const BottomNavigationMain(),
     );
   }
 }

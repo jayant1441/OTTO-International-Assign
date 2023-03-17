@@ -36,14 +36,14 @@ class _BottomNavigationMainState extends State<BottomNavigationMain> {
         toolbarHeight: 80, // Set this height
         flexibleSpace: Container(
           color: Colors.white,
-          padding: EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(height: MediaQuery.of(context).padding.top+12),
               Text('Hi, ${FirebaseAuth.instance.currentUser?.displayName}', style: const TextStyle( fontSize : 24, fontWeight: FontWeight.w600,color: AppColors.goldColor),),
-              Text("Create your best gallery today.", style: TextStyle(color: Colors.grey),),
+              const Text("Create your best gallery today.", style: TextStyle(color: Colors.grey),),
             ],
           ),
         ),
@@ -70,25 +70,25 @@ class _BottomNavigationMainState extends State<BottomNavigationMain> {
               gap: 8,
               activeColor: Colors.black,
               iconSize: 24,
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-              duration: Duration(milliseconds: 400),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              duration: const Duration(milliseconds: 400),
               tabBackgroundColor: AppColors.goldColor,
               color: Colors.grey,
               tabBorderRadius: 8,
               tabs: [
-                GButton(
+                const GButton(
                   icon: LineIcons.home,
                   text: 'Home',
                   textStyle: TextStyle(color:  Colors.white),
                   iconActiveColor: Colors.white,
                 ),
-                GButton(
+                const GButton(
                   icon: LineIcons.bookmark,
                   text: 'Bookmark',
                   textStyle: TextStyle(color:  Colors.white),
                   iconActiveColor: Colors.white,
                 ),
-                GButton(
+                const GButton(
                   icon: LineIcons.user,
                   text: 'Profile',
                   textStyle: TextStyle(color:  Colors.white),

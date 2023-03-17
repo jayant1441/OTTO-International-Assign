@@ -15,9 +15,9 @@ class BookmarkPageCubit extends Cubit<BookmarkPageState> {
   Future<void> addBookmark(String imageUrl) async{
     try {
       String email = FirebaseAuth.instance.currentUser!.email!;
-      emit(const BookmarkPageUploading());
+      emit( BookmarkPageUploading(imageUrl));
       bool? isBookmarkAdded = await BookmarkApiHandler.addBookmark(email ,imageUrl);
-      emit(BookmarkPageUploaded(isBookmarkAdded));
+      emit(BookmarkPageUploaded(isBookmarkAdded, imageUrl));
     }
     catch(e){
       emit(BookmarkPageUploadingError("$e"));

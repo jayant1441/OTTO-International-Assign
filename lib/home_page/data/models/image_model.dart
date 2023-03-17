@@ -5,7 +5,9 @@ class ImageModel {
       this.updatedAt, 
       this.altDescription, 
       this.likes, 
-      this.urlOfImages,});
+      this.urlOfImages,
+      this.isBookmarked,
+  });
 
   ImageModel.fromJson(dynamic json) {
     id = json['id'];
@@ -13,6 +15,7 @@ class ImageModel {
     updatedAt = json['updated_at'];
     altDescription = json['alt_description'];
     likes = json['likes'];
+    isBookmarked = json['isBookmarked'];
     urlOfImages = json['urls'] != null ? Urls.fromJson(json['urls']) : null;
   }
   String? id;
@@ -21,6 +24,12 @@ class ImageModel {
   String? altDescription;
   int? likes;
   Urls? urlOfImages;
+  bool? isBookmarked;
+
+  set setIsBookmarked(bool isBookmark) {
+    isBookmarked = isBookmark;
+  }
+
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -29,6 +38,7 @@ class ImageModel {
     map['updated_at'] = updatedAt;
     map['alt_description'] = altDescription;
     map['likes'] = likes;
+    map['isBookmarked'] = isBookmarked;
     if (urlOfImages != null) {
       map['urls'] = urlOfImages!.toJson();
     }
