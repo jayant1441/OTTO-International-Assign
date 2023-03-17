@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "865184021779",
+    "project_id": "crowdpadassignment",
+    "storage_bucket": "crowdpadassignment.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:865184021779:android:0534a803739654962feee6",
+        "android_client_info": {
+          "package_name": "com.otto.otto_international_assign"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "865184021779-am7b53taq8p64i4ts4a4dijl384rpv4h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.otto.otto_international_assign",
+            "certificate_hash": "213ed26a108bba17b496ac1230bbc4109d37cdf8"
+          }
+        },
+        {
+          "client_id": "865184021779-77edjucov5ut5tkhv5886i8c4pbji531.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwq3_IbRp3bRwWRP0Dz8i-3NG7kRCtiEE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "865184021779-5dijk6be4fsghel060ulqjgntsi9ov2g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

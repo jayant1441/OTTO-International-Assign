@@ -1,38 +1,30 @@
-import 'dart:ui';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:otto_international_assign/home_page/business_logic/home_page_cubit.dart';
+import 'package:otto_international_assign/bookmark_page/business_logic/bookmark_page_cubit.dart';
+import 'package:otto_international_assign/bookmark_page/data/models/Bookmark_model.dart';
 import 'package:otto_international_assign/home_page/data/models/Image_model.dart';
 import 'package:otto_international_assign/photo_view_page/presentation/photo_gallery_index.dart';
 import 'package:otto_international_assign/utils/colors.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+class MyBookmarkPage extends StatefulWidget {
+  const MyBookmarkPage({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<MyBookmarkPage> createState() => _MyBookmarkPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyBookmarkPageState extends State<MyBookmarkPage> {
   final ScrollController _scrollController = ScrollController();
-  final List<ImageModel> _listOfImages = [];
+  final List<BookmarkModel> _listOfBookmarks = [];
 
   @override
   void initState() {
     super.initState();
 
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent ) {
-        BlocProvider.of<HomePageCubit>(context)
-            .getListOfImages(isPaginating: true);
-      }
-    });
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      BlocProvider.of<HomePageCubit>(context).getListOfImages();
+      BlocProvider.of<BookmarkPageCubit>(context).getAllBookmarks();
     });
   }
 
@@ -44,31 +36,37 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<HomePageCubit, HomePageState>(
+    return BlocConsumer<BookmarkPageCubit, BookmarkPageState>(
       listener: (context, state) {
-        if (state is HomePageLoading) {
+        if (state is BookmarkPageLoading) {
           ScaffoldMessenger.of(context)
               .showSnackBar(SnackBar(content: Text("Loading")));
-        } else if (state is HomePageLoaded) {
+        } else if (state is BookmarkPageLoaded) {
           ScaffoldMessenger.of(context).hideCurrentSnackBar();
-          _listOfImages.addAll(state.listOfImages ?? []);
-          BlocProvider.of<HomePageCubit>(context).isFetching = false;
-        } else if (state is HomePageError) {
+          _listOfBookmarks.addAll(state.listOfBookMarks ?? []);
+          BlocProvider.of<BookmarkPageCubit>(context).isFetching = false;
+        } else if (state is BookmarkPageError) {
           ScaffoldMessenger.of(context)
               .showSnackBar(SnackBar(content: Text(state.errorMessage)));
-          BlocProvider.of<HomePageCubit>(context).isFetching = false;
+          BlocProvider.of<BookmarkPageCubit>(context).isFetching = false;
         }
         return;
       },
       builder: (context, state) {
-        if (state is HomePageInitial ||
-            state is HomePageLoading && _listOfImages.isEmpty) {
+        if (state is BookmarkPageInitial ||
+            state is BookmarkPageLoading && _listOfBookmarks.isEmpty) {
           return const CircularProgressIndicator(
             color: AppColors.goldColor,
           );
-        } else if (state is HomePageError) {
+        } else if (state is BookmarkPageError) {
           return Center(
             child: Text(state.errorMessage),
+          );
+        }
+
+        if(state is BookmarkPageLoaded &&  _listOfBookmarks.isEmpty ){
+          return Center(
+            child: Text("There are no bookmarks available."),
           );
         }
 
@@ -76,7 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
             padding: const EdgeInsets.all(12.0),
             child: GridView.builder(
               controller: _scrollController,
-              itemCount: _listOfImages.length,
+              itemCount: _listOfBookmarks.length,
               physics: BouncingScrollPhysics(),
               gridDelegate:
               const SliverGridDelegateWithFixedCrossAxisCount(
@@ -84,14 +82,19 @@ class _MyHomePageState extends State<MyHomePage> {
                   crossAxisSpacing: 12.0,
                   mainAxisSpacing: 12.0),
               itemBuilder: (BuildContext context, int index) {
-                final ImageModel image = _listOfImages[index];
+                final BookmarkModel bookmark = _listOfBookmarks[index];
+                List<ImageModel> listOfImages = _listOfBookmarks.map((e) => ImageModel(
+                    urlOfImages: Urls(
+                        small: bookmark.imageUrl
+                    )
+                )).toList();
                 return GestureDetector(
                   onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => GalleryPhotoViewWrapper(
-                          galleryItems: _listOfImages,
+                          galleryItems: listOfImages,
                           backgroundDecoration: const BoxDecoration(
                             color: Colors.black,
                           ),
@@ -113,7 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               borderRadius: BorderRadius.circular(16),
                               image: DecorationImage(
                                 image: CachedNetworkImageProvider(
-                                    "${image.urlOfImages!.small}"),
+                                    "${bookmark.imageUrl}"),
                                 fit: BoxFit.fill,
                               ))),
                     ),

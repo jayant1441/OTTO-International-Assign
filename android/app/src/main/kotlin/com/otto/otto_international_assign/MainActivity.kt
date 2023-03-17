@@ -1,4 +1,4 @@
-package com.example.otto_international_assign
+package com.otto.otto_international_assign
 
 import io.flutter.embedding.android.FlutterActivity
 
