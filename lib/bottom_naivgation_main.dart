@@ -5,6 +5,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:otto_international_assign/bookmark_page/presentation/bookmark_page_index.dart';
 import 'package:otto_international_assign/home_page/presentation/home_page_index.dart';
+import 'package:otto_international_assign/profile/presentation/profile_page_index.dart';
 import 'package:otto_international_assign/utils/colors.dart';
 
 class BottomNavigationMain extends StatefulWidget {
@@ -22,10 +23,7 @@ class _BottomNavigationMainState extends State<BottomNavigationMain> {
   static const List<Widget> _widgetOptions = <Widget>[
     MyHomePage(),
     MyBookmarkPage(),
-    Text(
-      'Profile',
-      style: optionStyle,
-    ),
+    ProfileScreen()
   ];
 
   @override
@@ -44,7 +42,7 @@ class _BottomNavigationMainState extends State<BottomNavigationMain> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(height: MediaQuery.of(context).padding.top+12),
-              Text('Hi, ${FirebaseAuth.instance.currentUser?.displayName}', style: const TextStyle( fontSize : 24, color: AppColors.goldColor),),
+              Text('Hi, ${FirebaseAuth.instance.currentUser?.displayName}', style: const TextStyle( fontSize : 24, fontWeight: FontWeight.w600,color: AppColors.goldColor),),
               Text("Create your best gallery today.", style: TextStyle(color: Colors.grey),),
             ],
           ),
