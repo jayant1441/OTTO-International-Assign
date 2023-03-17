@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
@@ -32,8 +33,22 @@ class _BottomNavigationMainState extends State<BottomNavigationMain> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        elevation: 20,
-        title: const Text('GoogleNavBar'),
+        elevation: 0,
+        backgroundColor: Colors.white,
+        toolbarHeight: 80, // Set this height
+        flexibleSpace: Container(
+          color: Colors.white,
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(height: MediaQuery.of(context).padding.top+12),
+              Text('Hi, ${FirebaseAuth.instance.currentUser?.displayName}', style: const TextStyle( fontSize : 24, color: AppColors.goldColor),),
+              Text("Create your best gallery today.", style: TextStyle(color: Colors.grey),),
+            ],
+          ),
+        ),
       ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
